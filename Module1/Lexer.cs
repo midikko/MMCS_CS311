@@ -58,6 +58,7 @@ namespace Lexer
 
         protected System.Text.StringBuilder intString;
         public int parseResult = 0;
+		public bool isNegative = false;
 
         public IntLexer(string input)
             : base(input)
@@ -68,13 +69,19 @@ namespace Lexer
         public override bool Parse()
         {
             NextCh();
-            if (currentCh == '+' || currentCh == '-')
+            if (currentCh == '-')
             {
+				isNegative = true;
                 NextCh();
             }
+			if (currentCh == '+')
+			{
+				NextCh();
+			}
         
             if (char.IsDigit(currentCh))
             {
+				parseResult = parseResult * 10 + int.Parse(currentCh.ToString());
                 NextCh();
             }
             else
@@ -84,7 +91,8 @@ namespace Lexer
 
             while (char.IsDigit(currentCh))
             {
-                NextCh();
+				parseResult = parseResult * 10 + int.Parse(currentCh.ToString());
+				NextCh();
             }
 
 
@@ -93,7 +101,11 @@ namespace Lexer
                 Error();
             }
 
-            return true;
+			if (isNegative)
+			{
+				parseResult = -1 * parseResult;
+			}
+			return true;
 
         }
     }
