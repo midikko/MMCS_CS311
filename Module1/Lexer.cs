@@ -126,8 +126,24 @@ namespace Lexer
         }
 
         public override bool Parse()
-        { 
-            throw new NotImplementedException();
+        {
+			NextCh();
+			if (currentCh == '$' || currentCh == '.')
+			{
+				Error();
+			}
+
+			while (currentCharValue!=-1)
+			{
+				builder.Append(currentCh);
+				NextCh();
+			}
+			parseResult = builder.ToString();
+			if (string.IsNullOrEmpty(parseResult))
+			{
+				Error();
+			}
+			return true;
         }
        
     }
