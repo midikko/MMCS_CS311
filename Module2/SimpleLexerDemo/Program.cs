@@ -29,6 +29,7 @@ end";
             {
                 Console.WriteLine("lexer error: " + e.Message);
             }
+			Console.ReadKey();
         }
     }
 }

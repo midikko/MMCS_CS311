@@ -128,13 +128,12 @@ namespace Lexer
         public override bool Parse()
         {
 			NextCh();
-			if (currentCh == '$' || currentCh == '.')
-			{
-				Error();
-			}
-
 			while (currentCharValue!=-1)
 			{
+				if (currentCh == '$' || currentCh == '.')
+				{
+					Error();
+				}
 				builder.Append(currentCh);
 				NextCh();
 			}
