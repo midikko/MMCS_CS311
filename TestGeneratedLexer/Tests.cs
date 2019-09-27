@@ -31,7 +31,7 @@ namespace TestGeneratedLexer
         [Test]
         public void TestNumbers()
         {
-            LexerAddon lexer = new LexerAddon(@"i22d1 5.6 i 32 id3
+            LexerAddon lexer = new LexerAddon(@"i22d1 5.6 // i 32 id3
                                                   Md4 8.9 inNd5 1  42 ");
             lexer.Lex();
             
