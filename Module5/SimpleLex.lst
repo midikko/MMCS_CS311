@@ -1,3 +1,14 @@
+
+// ==========================================================================
+//  GPLEX error listing for lex source file <SimpleLex.lex>
+// ==========================================================================
+//  Version:  1.2.0
+//  Machine:  MIL8A-202A-08
+//  DateTime: 18.10.2019 21:03:01
+//  UserName: user
+// ==========================================================================
+
+
 %using SimpleParser;
 %using QUT.Gppg;
 %using System.Linq;
@@ -29,34 +40,34 @@ ID {Alpha}{AlphaDigit}*
 ":=" { return (int)Tokens.ASSIGN; }
 ";"  { return (int)Tokens.SEMICOLON; }
 "("  {return (int)Tokens.OPENP; }
-")"  {return (int)Tokens.CLOSEP; }
-","  {return (int)Tokens.COMMA; }
-"-"  {return (int)Tokens.MINUS; }
-"+"  {return (int)Tokens.PLUS; }
-"/"  {return (int)Tokens.DELIM; }
-"*"  {return (int)Tokens.MULT; }
+// Warning: This pattern always overrides ""("" 
+// ---------------------------------------------
+"("  {return (int)Tokens.CLOSEP; }
+// Warning: This pattern always overridden by ""("" 
+// -------------------------------------------------
+
 
 [^ \r\n] {
 	LexError();
-	return (int)Tokens.EOF; // конец разбора
+	return (int)Tokens.EOF; // ГЄГ®Г­ГҐГ¶ Г°Г Г§ГЎГ®Г°Г 
 }
 
 %{
-  yylloc = new LexLocation(tokLin, tokCol, tokELin, tokECol); // позиция символа (терминального или нетерминального), возвращаемая @1 @2 и т.д.
+  yylloc = new LexLocation(tokLin, tokCol, tokELin, tokECol); // ГЇГ®Г§ГЁГ¶ГЁГї Г±ГЁГ¬ГўГ®Г«Г  (ГІГҐГ°Г¬ГЁГ­Г Г«ГјГ­Г®ГЈГ® ГЁГ«ГЁ Г­ГҐГІГҐГ°Г¬ГЁГ­Г Г«ГјГ­Г®ГЈГ®), ГўГ®Г§ГўГ°Г Г№Г ГҐГ¬Г Гї @1 @2 ГЁ ГІ.Г¤.
 %}
 
 %%
 
-public override void yyerror(string format, params object[] args) // обработка синтаксических ошибок
+public override void yyerror(string format, params object[] args) // Г®ГЎГ°Г ГЎГ®ГІГЄГ  Г±ГЁГ­ГІГ ГЄГ±ГЁГ·ГҐГ±ГЄГЁГµ Г®ГёГЁГЎГ®ГЄ
 {
   var ww = args.Skip(1).Cast<string>().ToArray();
-  string errorMsg = string.Format("({0},{1}): Встречено {2}, а ожидалось {3}", yyline, yycol, args[0], string.Join(" или ", ww));
+  string errorMsg = string.Format("({0},{1}): Г‚Г±ГІГ°ГҐГ·ГҐГ­Г® {2}, Г  Г®Г¦ГЁГ¤Г Г«Г®Г±Гј {3}", yyline, yycol, args[0], string.Join(" ГЁГ«ГЁ ", ww));
   throw new SyntaxException(errorMsg);
 }
 
 public void LexError()
 {
-	string errorMsg = string.Format("({0},{1}): Неизвестный символ {2}", yyline, yycol, yytext);
+	string errorMsg = string.Format("({0},{1}): ГЌГҐГЁГ§ГўГҐГ±ГІГ­Г»Г© Г±ГЁГ¬ГўГ®Г« {2}", yyline, yycol, yytext);
     throw new LexException(errorMsg);
 }
 
@@ -80,14 +91,15 @@ class ScannerHelper
 	keywords.Add("for",(int)Tokens.FOR);
 	keywords.Add("to",(int)Tokens.TO);
 	keywords.Add("write",(int)Tokens.WRITE);
-	keywords.Add("var",(int)Tokens.VAR);
 	
   }
   public static int GetIDToken(string s)
   {
-    if (keywords.ContainsKey(s.ToLower())) // язык нечувствителен к регистру
+    if (keywords.ContainsKey(s.ToLower())) // ГїГ§Г»ГЄ Г­ГҐГ·ГіГўГ±ГІГўГЁГІГҐГ«ГҐГ­ ГЄ Г°ГҐГЈГЁГ±ГІГ°Гі
       return keywords[s];
     else
       return (int)Tokens.ID;
   }
 }
+// ==========================================================================
+
