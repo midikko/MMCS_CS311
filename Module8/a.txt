@@ -4,16 +4,8 @@ begin
   c := 14 % 5; write(c);
   a := 3;
   a := a * 4 + b;
-  cycle 3
-  begin
-    a := a + 1;
-    write(a)
-  end;
-  for z:=1 to 4+6
+  for z:=1 to 4 + 6
   begin
     write(z)
-  end;
-  write(b);
-  write(c);
-  write(d);
+  end
 end

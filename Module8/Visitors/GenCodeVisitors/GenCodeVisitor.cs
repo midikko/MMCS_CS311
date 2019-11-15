@@ -87,6 +87,7 @@ namespace SimpleLang.Visitors
 			c.Assign.Visit(this);
 			c.Expr.Visit(this);
 			var limit = genc.DeclareLocal(typeof(int)); // переменная цикла cycle
+			genc.Emit(OpCodes.Stloc, limit);
 			Label startLoop = genc.DefineLabel();
 			Label endLoop = genc.DefineLabel();
 
@@ -94,7 +95,7 @@ namespace SimpleLang.Visitors
 
 			genc.Emit(OpCodes.Ldloc, vars[c.Assign.Id.Name]);
 			genc.Emit(OpCodes.Ldloc, limit);
-			genc.Emit(OpCodes.Ble, endLoop);
+			genc.Emit(OpCodes.Bge, endLoop);
 
 			c.Stat.Visit(this);
 
